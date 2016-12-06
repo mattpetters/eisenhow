@@ -52,6 +52,7 @@ body{
 
 #quadOne {
     flex:50;
+    border-right: 2px gray solid;
 }
 
 #quadTwo {
@@ -60,10 +61,14 @@ body{
 
 #quadThree {
     flex:50;
+    border-top: 2px gray solid;
+    border-right: 2px gray solid;
 }
 
 #quadFour {
     flex:50;
+    border-top: 2px gray solid;
+
 }
 
 #taskList {

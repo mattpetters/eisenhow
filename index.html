@@ -10,6 +10,7 @@
             <div id="quad-container">
                 <div id="top-row">
                         <div class="quadrant dropzone" id="quadOne">
+                            <h3>I</h3>
                             <ul>
                                 <li ng-repeat="t1 in vm.tasks_p1">
                                         <b>{{t1.name}}</b><br>
@@ -20,6 +21,7 @@
                             </ul>   
                         </div>
                         <div class="quadrant dropzone" id="quadTwo">
+                            <h3>II</h3>
                             <ul>
                                 <li ng-repeat="t2 in vm.tasks_p2">
                                                                             <b>{{t2.name}}</b><br>
@@ -33,6 +35,7 @@
 
                 <div id="bottom-row">
                     <div class="quadrant dropzone" id="quadThree">
+                        <h3>III</h3>
                         <ul>
                             <li ng-repeat="t3 in vm.tasks_p3">
                                                                         <b>{{t3.name}}</b><br>
@@ -43,6 +46,7 @@
                         </ul>   
                     </div>
                     <div class="quadrant dropzone" id="quadFour">
+                        <h3>IV</h3>
                         <ul>
                             <li ng-repeat="t4 in vm.tasks_p4">
                                                                         <b>{{t4.name}}</b><br>
@@ -60,7 +64,8 @@
             
 
             <div id="taskList">
-                <input type="text" ng-model="newTask">
+                <input type="text" ng-model="vm.newTask">
+                <button ng-click="vm.addTask(vm.newTask)">Add Task</button> 
                 <ul class="task_list_class">
                     <li class="draggable drag-drop" id="task" ng-repeat="task in vm.taskList">
                         <b>{{task.name}}</b><br>
@@ -69,7 +74,6 @@
                         <button ng-click="vm.decrementPriority(task)">-</button>
                     </li>
                 </ul>   
-                <button ng-click="vm.addTask(newTask)">Add Task</button> 
             </div>            
         </div>
         

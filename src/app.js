@@ -3,50 +3,62 @@ var app = angular.module('app', []);
 
 app.controller('appController', function(){
         
-        this.taskList = [];
-        this.tasks_p1 = [];
-        this.tasks_p2 = [];
-        this.tasks_p3 = [];
-        this.tasks_p4 = [];
-        this.addTask = function(newTask){
-            this.taskList.push({"name":newTask, "priority":0, "container":this.taskList});
+        var vm = this;
+
+        vm.taskList = [];
+        vm.tasks_p1 = [];
+        vm.tasks_p2 = [];
+        vm.tasks_p3 = [];
+        vm.tasks_p4 = [];
+        vm.addTask = function(newTask){
+            vm.taskList.push({"name":newTask, "priority":0, "container":vm.taskList});
+            vm.newTask = '';
         }
 
-        this.incrementPriority = function(task){
+        vm.incrementPriority = function(task){
             if (task.priority >= 4){
                 task.priority = 0;
             } else {
                 task.priority++;
             }
-            this.sortTask(task);
+            vm.sortTask(task);
         }
 
-        this.sortTask = function(task){
+        vm.decrementPriority = function(task){
+            if (task.priority <= 0){
+                task.priority = 4;
+            } else {
+                task.priority--;
+            }
+            vm.sortTask(task);
+        }
+
+        vm.sortTask = function(task){
             //refactor to switch case
-            this.removeTask(task);
+            vm.removeTask(task);
             if (task.priority === 0){
-                task.container = this.taskList;
-                this.taskList.push(task);
+                task.container = vm.taskList;
+                vm.taskList.push(task);
             } 
             if (task.priority === 1){
-                task.container = this.tasks_p1;
-                this.tasks_p1.push(task);
+                task.container = vm.tasks_p1;
+                vm.tasks_p1.push(task);
             }            
             if (task.priority === 2){
-                task.container = this.tasks_p2;
-                this.tasks_p2.push(task);
+                task.container = vm.tasks_p2;
+                vm.tasks_p2.push(task);
             }    
             if (task.priority === 3){
-                task.container = this.tasks_p3;
-                this.tasks_p3.push(task);
+                task.container = vm.tasks_p3;
+                vm.tasks_p3.push(task);
             }
             if (task.priority === 4){
-                task.container = this.tasks_p4;
-                this.tasks_p4.push(task);
+                task.container = vm.tasks_p4;
+                vm.tasks_p4.push(task);
             }
         }
 
-        this.removeTask = function(task){
+        vm.removeTask = function(task){
             var array = task.container;
             var idx = array.indexOf(task);
             array.splice(idx, 1);
