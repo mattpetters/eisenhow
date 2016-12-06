@@ -11,12 +11,22 @@
                 <div id="top-row">
                         <div class="quadrant dropzone" id="quadOne">
                             <ul>
-                                <li>Task</li>
+                                <li ng-repeat="t1 in vm.tasks_p1">
+                                        <b>{{t1.name}}</b><br>
+                                        <span>P{{t1.priority}}</span>
+                                        <button ng-click="vm.incrementPriority(t1)">+</button>
+                                        <button ng-click="vm.decrementPriority(t1)">-</button>
+                                </li>
                             </ul>   
                         </div>
                         <div class="quadrant dropzone" id="quadTwo">
                             <ul>
-                                <li>Task</li>
+                                <li ng-repeat="t2 in vm.tasks_p2">
+                                                                            <b>{{t2.name}}</b><br>
+                                        <span>P{{t2.priority}}</span>
+                                        <button ng-click="vm.incrementPriority(t2)">+</button>
+                                        <button ng-click="vm.decrementPriority(t2)">-</button>
+                                </li>
                             </ul>   
                         </div>
                     </div>
@@ -24,12 +34,22 @@
                 <div id="bottom-row">
                     <div class="quadrant dropzone" id="quadThree">
                         <ul>
-                            <li>Task</li>
+                            <li ng-repeat="t3 in vm.tasks_p3">
+                                                                        <b>{{t3.name}}</b><br>
+                                        <span>P{{t3.priority}}</span>
+                                        <button ng-click="vm.incrementPriority(t3)">+</button>
+                                        <button ng-click="vm.decrementPriority(t3)">-</button>
+                            </li>
                         </ul>   
                     </div>
                     <div class="quadrant dropzone" id="quadFour">
                         <ul>
-                            <li>Task</li>
+                            <li ng-repeat="t4 in vm.tasks_p4">
+                                                                        <b>{{t4.name}}</b><br>
+                                        <span>P{{t4.priority}}</span>
+                                        <button ng-click="vm.incrementPriority(t4)">+</button>
+                                        <button ng-click="vm.decrementPriority(t4)">-</button>
+                            </li>
                         </ul>   
                 </div>
             </div>
@@ -42,7 +62,12 @@
             <div id="taskList">
                 <input type="text" ng-model="newTask">
                 <ul class="task_list_class">
-                    <li class="draggable drag-drop" id="task" ng-repeat="task in vm.taskList">{{task.name}}</li>
+                    <li class="draggable drag-drop" id="task" ng-repeat="task in vm.taskList">
+                        <b>{{task.name}}</b><br>
+                        <span>P{{task.priority}}</span>
+                        <button ng-click="vm.incrementPriority(task)">+</button>
+                        <button ng-click="vm.decrementPriority(task)">-</button>
+                    </li>
                 </ul>   
                 <button ng-click="vm.addTask(newTask)">Add Task</button> 
             </div>            

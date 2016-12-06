@@ -4,8 +4,52 @@ var app = angular.module('app', []);
 app.controller('appController', function(){
         
         this.taskList = [];
+        this.tasks_p1 = [];
+        this.tasks_p2 = [];
+        this.tasks_p3 = [];
+        this.tasks_p4 = [];
         this.addTask = function(newTask){
-            this.taskList.push({"name":newTask, "priority":0});
+            this.taskList.push({"name":newTask, "priority":0, "container":this.taskList});
+        }
+
+        this.incrementPriority = function(task){
+            if (task.priority >= 4){
+                task.priority = 0;
+            } else {
+                task.priority++;
+            }
+            this.sortTask(task);
+        }
+
+        this.sortTask = function(task){
+            //refactor to switch case
+            this.removeTask(task);
+            if (task.priority === 0){
+                task.container = this.taskList;
+                this.taskList.push(task);
+            } 
+            if (task.priority === 1){
+                task.container = this.tasks_p1;
+                this.tasks_p1.push(task);
+            }            
+            if (task.priority === 2){
+                task.container = this.tasks_p2;
+                this.tasks_p2.push(task);
+            }    
+            if (task.priority === 3){
+                task.container = this.tasks_p3;
+                this.tasks_p3.push(task);
+            }
+            if (task.priority === 4){
+                task.container = this.tasks_p4;
+                this.tasks_p4.push(task);
+            }
+        }
+
+        this.removeTask = function(task){
+            var array = task.container;
+            var idx = array.indexOf(task);
+            array.splice(idx, 1);
         }
 });
 
@@ -17,7 +61,7 @@ interact('.draggable')
     inertia: true,
     // keep the element within the area of it's parent
     restrict: {
-      restriction: "parent",
+      restriction: ".dropzone",
       endOnly: true,
       elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
     },
@@ -28,12 +72,13 @@ interact('.draggable')
     onmove: dragMoveListener,
     // call this function on every dragend event
     onend: function (event) {
-      var textEl = event.target.querySelector('p');
 
-      textEl && (textEl.textContent =
-        'moved a distance of '
-        + (Math.sqrt(event.dx * event.dx +
-                     event.dy * event.dy)|0) + 'px');
+        var task = event.relatedTarget,
+        quadrant = event.target;
+
+        // update the posiion attributes
+        target.setAttribute('data-x', 0);
+        target.setAttribute('data-y', 0);
     }
   });
 
@@ -43,7 +88,7 @@ interact('.draggable')
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-    // translate the element
+    //translate the element
     target.style.webkitTransform =
     target.style.transform =
       'translate(' + x + 'px, ' + y + 'px)';
@@ -51,7 +96,7 @@ interact('.draggable')
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-  }
+  };
 
   // this is used later in the resizing and gesture demos
   window.dragMoveListener = dragMoveListener;
@@ -59,9 +104,9 @@ interact('.draggable')
   // enable draggables to be dropped into this
 interact('.dropzone').dropzone({
   // only accept elements matching this CSS selector
-  accept: '#task',
+  accept: '.draggable',
   // Require a 75% element overlap for a drop to be possible
-  overlap: 0.75,
+  overlap: 0.01,
 
   // listen for drop related events:
 
@@ -70,26 +115,43 @@ interact('.dropzone').dropzone({
     event.target.classList.add('drop-active');
   },
   ondragenter: function (event) {
-    var draggableElement = event.relatedTarget,
-        dropzoneElement = event.target;
+    var task = event.relatedTarget,
+        quadrant = event.target;
 
     // feedback the possibility of a drop
-    dropzoneElement.classList.add('drop-target');
-    draggableElement.classList.add('can-drop');
-    draggableElement.textContent = 'Dragged in';
+    quadrant.classList.add('drop-target');
+    task.classList.add('can-drop');
   },
   ondragleave: function (event) {
+    var task = event.relatedTarget,
+        quadrant = event.target;
+
     // remove the drop feedback style
-    event.target.classList.remove('drop-target');
-    event.relatedTarget.classList.remove('can-drop');
-    event.relatedTarget.textContent = 'Dragged out';
+    quadrant.classList.remove('drop-target');
+    task.classList.remove('can-drop');
   },
   ondrop: function (event) {
-    event.relatedTarget.textContent = 'Dropped';
+    var task = event.relatedTarget,
+        quadrant = event.target;
+
+        console.log("Dropped");
+        quadrant.childNodes[1].appendChild(task);
+        task.style.webkitTransform =
+        task.style.transform =
+        'translate(' + 0 + 'px, ' + 0 + 'px)';
+
+                // update the posiion attributes
+        target.setAttribute('data-x', 0);
+        target.setAttribute('data-y', 0);
+
   },
   ondropdeactivate: function (event) {
     // remove active dropzone feedback
-    event.target.classList.remove('drop-active');
-    event.target.classList.remove('drop-target');
+    var task = event.relatedTarget,
+        quadrant = event.target;
+
+
+    quadrant.classList.remove('drop-active');
+    quadrant.classList.remove('drop-target');
   }
 });
