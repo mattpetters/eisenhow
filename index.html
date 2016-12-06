@@ -42,7 +42,7 @@
             <div id="taskList">
                 <input type="text" ng-model="newTask">
                 <ul class="task_list_class">
-                    <li class="draggable" id="task" ng-repeat="task in vm.taskList">{{task.name}}</li>
+                    <li class="draggable drag-drop" id="task" ng-repeat="task in vm.taskList">{{task.name}}</li>
                 </ul>   
                 <button ng-click="vm.addTask(newTask)">Add Task</button> 
             </div>            
