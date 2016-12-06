@@ -1,18 +1,28 @@
 var app = angular.module('app', []);
+const ipc = require('electron').ipcRenderer;
 
 
 app.controller('appController', function(){
         
         var vm = this;
-
+        vm.allTasks = [];
         vm.taskList = [];
         vm.tasks_p1 = [];
         vm.tasks_p2 = [];
         vm.tasks_p3 = [];
         vm.tasks_p4 = [];
         vm.addTask = function(newTask){
-            vm.taskList.push({"name":newTask, "priority":0, "container":vm.taskList});
+            var newtsk = { "name":newTask, "priority":0, "container":vm.taskList};
+            vm.allTasks.push(newtsk);
+            vm.taskList.push(newtsk);
             vm.newTask = '';
+        }
+
+        vm.saveTasks = function(){
+            const reply = ipc.sendSync('test', vm.allTasks)
+            const message = `Synchronous message reply: ${reply}`
+
+            console.log(message);
         }
 
         vm.incrementPriority = function(task){
