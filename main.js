@@ -3,9 +3,10 @@ let win
 
 const ipc = require('electron').ipcMain
 
-ipc.on('test', function (event, arg) {
+ipc.on('save-tasks', function (event, arg) {
     console.log(arg);
-    event.returnValue = 'pong'
+    console.log("Saving to json file");
+    event.returnValue = 'Saved tasks'
 })
 
 app.on('ready', () => {

@@ -19,7 +19,7 @@ app.controller('appController', function(){
         }
 
         vm.saveTasks = function(){
-            const reply = ipc.sendSync('test', vm.allTasks)
+            const reply = ipc.sendSync('save-tasks', vm.allTasks)
             const message = `Synchronous message reply: ${reply}`
 
             console.log(message);
